@@ -4,6 +4,7 @@ import airplaneRouter from './airplane/airplane.router';
 import { AnagramController } from './anagram/anagram.controller';
 import { CrosswordController } from './crossword/crossword.controller';
 import { FindTheMatchController } from './find-the-match/find-the-match.controller';
+import { HangmanController } from './hangman/hangman.controller';
 import { MazeChaseController } from './maze-chase/maze-chase.controller';
 import { PairOrNoPairController } from './pair-or-no-pair/pair-or-no-pair.controller';
 import { QuizController } from './quiz/quiz.controller';
@@ -33,6 +34,7 @@ gameListRouter.use('/airplane', airplaneRouter);
 
 gameListRouter.use('/spin-the-wheel', SpinTheWheelController);
 gameListRouter.use('/true-or-false', TrueOrFalseController);
+gameListRouter.use('/hangman', HangmanController);
 gameListRouter.use('/type-the-answer', TypeTheAnswerController);
 gameListRouter.use('/whack-a-mole', WhackAMoleController);
 
