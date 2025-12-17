@@ -7,11 +7,13 @@ This is the backend repository for WordIT. A Website where you can play, learn, 
 1. Make sure you have `Bun` installed. [Bun Website](https://bun.com/)
 
 2. Install the dependencies
+
 ```bash
 bun install
 ```
 
 3. Create an env file. For development, name it `.env.development`
+
 ```conf
 POSTGRES_USER=""       # Hanya gunakan huruf kecil, angka, dan simbol underscore
 POSTGRES_PASSWORD=""
@@ -31,21 +33,25 @@ NODE_ENV="development"
 ```
 
 4. Create your database on docker
+
 ```bash
 bun docker:up:dev
 ```
 
 5. Migrate the `Prisma Schema` to your database
+
 ```bash
 bun migrate:dev
 ```
 
 6. Fill your database with dummy data
+
 ```bash
 bun seed:dev
 ```
 
 7. Run the project
+
 ```bash
 bun start:dev
 ```
@@ -55,6 +61,7 @@ bun start:dev
 - Please follow the current project format
 
 - There are 2 ways to use validation. First, you can use `validateBody` middleware to validate and rewrite your req.body
+
 ```ts
 .post(
   '/register',
@@ -72,6 +79,7 @@ bun start:dev
 ```
 
 - Second, you can use `AdditionalValidation.validate` function to validate other thing such as `req.params` or `req.query`
+
 ```ts
 // Since Pagination query has default value of page and perPage, you can still access query.page and query.perPage eventhough they're not assigned in request.query
 const query = AdditionalValidation.validate(
@@ -81,11 +89,13 @@ const query = AdditionalValidation.validate(
 ```
 
 - Before commiting your work, check your code format
+
 ```bash
 bun lint
 ```
 
 - To run a quick fix on your code, run
+
 ```bash
 bun lint:fix
 ```
