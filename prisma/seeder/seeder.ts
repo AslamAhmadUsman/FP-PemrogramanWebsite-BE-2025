@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 import {
   gameTemplateSeed,
+  puzzleSeed,
   quizSeed,
   spinTheWheelSeed,
   userSeed,
@@ -23,6 +24,7 @@ async function main() {
 
     await whackAMoleSeed();
     await seedAirplaneGame();
+    await puzzleSeed();
   } catch (error: unknown) {
     console.error('⛔ Seeding error:', error);
     process.exit(1);

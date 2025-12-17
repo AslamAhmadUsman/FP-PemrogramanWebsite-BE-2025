@@ -24,36 +24,24 @@ export abstract class GameService {
     user_id?: string,
     current_user_id?: string,
   ) {
-    // Build filters array, excluding undefined values
-    const filters: Prisma.GamesWhereInput[] = [];
-
-    // Always filter by is_published for public/explore pages
-    if (!is_private) {
-      filters.push({ is_published: true });
-    }
-
-    // Search filter
-    if (query.search) {
-      filters.push({ name: { contains: query.search, mode: 'insensitive' } });
-    }
-
-    // Game template filter
-    if (query.gameTypeSlug) {
-      filters.push({ game_template: { slug: query.gameTypeSlug } });
-    }
-
-    // Creator filter
-    if (user_id) {
-      filters.push({ creator: { id: user_id } });
-    }
-
     const args: {
       where: Prisma.GamesWhereInput;
       select: Prisma.GamesSelect;
       orderBy: Prisma.GamesOrderByWithRelationInput[];
     } = {
       where: {
-        AND: filters.length > 0 ? filters : undefined,
+        AND: [
+          { is_published: is_private ? undefined : true },
+          {
+            name: query.search
+              ? { contains: query.search, mode: 'insensitive' }
+              : undefined,
+          },
+          query.gameTypeSlug
+            ? { game_template: { slug: query.gameTypeSlug } }
+            : {},
+          { creator: { id: user_id } },
+        ],
       },
       select: {
         id: true,
@@ -75,7 +63,6 @@ export abstract class GameService {
         is_published: is_private,
         game_template: {
           select: {
-            name: true,
             slug: true,
           },
         },
@@ -106,9 +93,7 @@ export abstract class GameService {
 
     const cleanedResult = paginationResult.data.map(game => ({
       ...game,
-      game_template: undefined,
-      game_template_name: game.game_template.name,
-      game_template_slug: game.game_template.slug,
+      game_template: game.game_template.slug,
       creator: undefined,
       is_published: is_private ? game.is_published : undefined,
       creator_id: user_id ? undefined : game.creator.id,

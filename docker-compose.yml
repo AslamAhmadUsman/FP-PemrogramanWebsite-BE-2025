@@ -1,24 +1,17 @@
-services:
-  database:
-    image: postgres:17
-    container_name: fp-database
-    restart: unless-stopped
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_DB: ${POSTGRES_NAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ./docker/volumes/:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_NAME}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - fp-network
 
-networks:
-  fp-network:
-    driver: bridge
+version: '3.8'
+services:
+  fp-database:
+    image: postgres:latest
+    container_name: fp-database
+    environment:
+      POSTGRES_USER: puzzle
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: puzzle
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+volumes:
+  pgdata:
